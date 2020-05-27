@@ -9,7 +9,7 @@ ws1 = wb.create_sheet("Quests", 0) # insert at the end (default)
 row = ['ID_UInt32','ID_Int32','Offset','Type','Name','Value']
 ws.append(row)
 
-row = ['Quest Name', 'Quest ID', 'Value']
+row = ['Value', 'Name', 'Type','Region','Location']
 ws1.append(row)
 
 with open('gamedata.json') as json_file:
@@ -42,12 +42,15 @@ with open('game_data.sav', 'rb') as f:
             value = ''
             f.seek(c_size, 1)
         
-        quest = quests.get(nome)
+        quest = quests.get(str(id_int))
         if quest:
-            row = [quest['Nome'],nome,value]
-            ws1.append(row)
+            quest['Value'] = value
 
-        row = [id_uint,id_int,offset,tipo,nome,value]
-        ws.append(row)
+        # row = [id_uint,id_int,offset,tipo,nome,value]
+        # ws.append(row)
+
+for key, value in quests.items():
+    row = [value['Value'],value['Quest_Name'],value['Quest_Type'],value['Region'],value['Location']]
+    ws1.append(row)
 
 wb.save('gamedata.xlsx')
